@@ -1,0 +1,9 @@
+"./clock.obj"
+"./gpio.obj"
+"./i2c0.obj"
+"./nvic.obj"
+"./stop_go_gpio_I2C.obj"
+"./tm4c123gh6pm_startup_ccs.obj"
+"./wait.obj"
+"../tm4c123gh6pm.cmd"
+-llibc.a
