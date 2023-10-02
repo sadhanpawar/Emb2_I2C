@@ -129,10 +129,16 @@ Emb2_lab_I2C.out \
 EXE_OUTPUTS__QUOTED += \
 "Emb2_lab_I2C.out" \
 
+BIN_OUTPUTS += \
+Emb2_lab_I2C.hex \
+
+BIN_OUTPUTS__QUOTED += \
+"Emb2_lab_I2C.hex" \
+
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "Emb2_lab_I2C.out"
+	@$(MAKE) --no-print-directory -Onone "Emb2_lab_I2C.out" secondary-outputs
 
 # Tool invocations
 Emb2_lab_I2C.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
@@ -142,13 +148,22 @@ Emb2_lab_I2C.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
+Emb2_lab_I2C.hex: $(EXE_OUTPUTS)
+	@echo 'Building secondary target: "$@"'
+	@echo 'Invoking: Arm Hex Utility'
+	"/home/sadhan/ti/ccs1210/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armhex" --memwidth=8 --romwidth=32 --diag_wrap=off --intel -o "Emb2_lab_I2C.hex" $(EXE_OUTPUTS__QUOTED)
+	@echo 'Finished building secondary target: "$@"'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) $(EXE_OUTPUTS__QUOTED)
+	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
 	-$(RM) "clock.obj" "gpio.obj" "i2c0.obj" "nvic.obj" "stop_go_gpio_I2C.obj" "tm4c123gh6pm_startup_ccs.obj" "wait.obj" 
 	-$(RM) "clock.d" "gpio.d" "i2c0.d" "nvic.d" "stop_go_gpio_I2C.d" "tm4c123gh6pm_startup_ccs.d" "wait.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
+
+secondary-outputs: $(BIN_OUTPUTS)
 
 .PHONY: all clean dependents
 .SECONDARY:

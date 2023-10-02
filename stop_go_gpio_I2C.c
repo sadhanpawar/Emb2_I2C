@@ -37,7 +37,7 @@
 #define PUSH_BUTTON PORTF,4
 #define I2C0_INT PORTB, 6
 
-#define I2C_ADDR    (0x34)
+#define I2C_ADDR    (0x20)
 
 #define IO_EXP_LED1()     0x09, 0x01
 #define IO_EXP_LED2()     0x09, 0x02
@@ -122,6 +122,7 @@ int main(void)
 	/*clear the interrupt in spi slave dev */
 	while( count > 0 ) {
 	    (void)readI2c0Register(I2C_ADDR,0x09);
+	    count--;
 	}
 
 	waitMicrosecond(1000000);
